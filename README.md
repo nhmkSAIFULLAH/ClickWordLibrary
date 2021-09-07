@@ -15,7 +15,7 @@ allprojects {
   
   ```gradle
   dependencies {
-	        implementation 'com.github.nhmkSAIFULLAH:ClickWordLibrary:1.1'
+	        implementation 'com.github.nhmkSAIFULLAH:ClickWordLibrary:1.2'
 	}
   ```
   
