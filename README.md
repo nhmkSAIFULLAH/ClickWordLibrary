@@ -44,12 +44,27 @@ allprojects {
 
   ```
   
-  Extra Feature: You can set the selected word color with the method below,
+  Extra Feature: 
+  
+  1. You can set the selected word color with the method below,
   
   ```
   
           wordClicker.setSelectedColor("#fcba03");
 
   ```
+  
+  2. You can set the selected word style with the method below,
+
+  ```
+          wordClicker.setTextStyle(Typeface.BOLD);
+  ```
+  
+  There are 4 style available.
+  1. Typeface.NORMAL
+  2. Typeface.BOLD
+  3. Typeface.BOLD_ITALIC
+  4. Typeface.ITALIC
+
   
   Happy coding :)
