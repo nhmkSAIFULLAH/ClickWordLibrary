@@ -35,12 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
         new WordClicker(tvContent,content).getClickedWord(clickedWord -> tvShow.setText(clickedWord)).setSelectedColor("#fcba03").create();
 
-        String word = "things";
-        if (content.contains(word)){
-            int start = content.indexOf(word);
-            int end = start+ word.length();
-            Toast.makeText(this,"Start: "+ start+ " End; "+end, Toast.LENGTH_SHORT).show();
-        }
 
     }
 }
