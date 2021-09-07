@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.domesoft.wordclicker.WordClicker;
 
@@ -19,10 +20,27 @@ public class MainActivity extends AppCompatActivity {
 
         tvContent = findViewById(R.id.tvContent);
         tvShow = findViewById(R.id.tvShow);
-        content = "The things we do best in life are the things we enjoy doing. If you aren't having fun learning English, you're not studying the right way! You can be a serious student who has fun at the same time. Make up your own rewards program to give yourself incentives to stay on task.";
+        content = "The things we do best in life are the things life we enjoy doing. " +
+                "If you aren't having fun learning English, you're not studying the right way! " +
+                "You can be a serious student who has fun at the same time. Make up your own " +
+                "If you aren't having fun learning English, you're not studying the right way! " +
+                "You can be a serious student who has fun at the same time. Make up your own " +
+                "If you aren't having fun learning English, you're not studying the right way! " +
+                "You can be a serious student who has fun at the same time. Make up your own " +
+                "If you aren't having fun learning English, you're not studying the right way! " +
+                "You can be a serious student who has fun at the same time. Make up your own " +
+                "If you aren't having fun learning English, you're not studying the right way! " +
+                "You can be a serious student who has fun at the same time. Make up your own " +
+                "rewards program to give yourself incentives to stay on task.";
 
-        new WordClicker(tvContent,content).getClickedWord(clickedWord -> tvShow.setText(clickedWord)).create();
+        new WordClicker(tvContent,content).getClickedWord(clickedWord -> tvShow.setText(clickedWord)).setSelectedColor("#fcba03").create();
 
+        String word = "things";
+        if (content.contains(word)){
+            int start = content.indexOf(word);
+            int end = start+ word.length();
+            Toast.makeText(this,"Start: "+ start+ " End; "+end, Toast.LENGTH_SHORT).show();
+        }
 
     }
 }
