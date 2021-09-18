@@ -3,32 +3,42 @@ package com.domesoft.wordclicker;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-
 import java.text.BreakIterator;
-import java.text.CharacterIterator;
 import java.util.Locale;
+
+
 
 public class WordClicker {
 
     private final TextView textView;
     private final String string;
-    private String selectedColor = "#FF3700B3";
-    private SpannableStringBuilder stringBuilder;
     private GetClickedWord getClickedWord;
+
+    private SpannableStringBuilder stringBuilder;
+    private boolean isColorAdded = false; private String selectedFgColor;
+    private boolean isBgAdded = false; private String selectedBackground;
+    private boolean isTypeFaceAdded = false; private int typeFace;
+    private boolean isSizeAdded = false; private float textSize;
+    
+    private Locale language = Locale.ENGLISH;
+
+
+
 
     public WordClicker(TextView textView, String string) {
         this.textView = textView;
@@ -51,9 +61,52 @@ public class WordClicker {
     }
 
     public WordClicker setSelectedColor(String color){
-        this.selectedColor = color;
+        this.selectedFgColor = color;
+        isColorAdded = true;
         return this;
     }
+
+    public WordClicker setBackgroundColor(String backgroundColor){
+        this.selectedBackground = backgroundColor;
+        isBgAdded = true;
+        return this;
+    }
+
+    public WordClicker setTextStyle(int typeFace){
+        this.typeFace = typeFace;
+        isTypeFaceAdded = true;
+        return this;
+    }
+
+    public WordClicker setTextSize(float textSize){
+        isSizeAdded = true;
+        this.textSize = textSize;
+        return this;
+    }
+    
+    public WordClicker setLanguage(int language){
+
+        switch (language){
+            case 0: this.language = Locale.ENGLISH;
+            break;
+            case 1: this.language = Locale.CHINESE;
+            break;
+            case 2: this.language = Locale.FRENCH;
+            break;
+            case 3: this.language = Locale.GERMAN;
+            break;
+            case 4: this.language = Locale.ITALIAN;
+            break;
+            case 5: this.language = Locale.JAPANESE;
+            break;
+            case 6: this.language = Locale.KOREAN;
+            break;
+        }
+       return this;
+    }
+
+
+
 
     private void selectableWord(TextView textView, SpannableStringBuilder entireString) {
         //First we trim the text and remove the spaces at start and end.
@@ -64,7 +117,7 @@ public class WordClicker {
         textView.setText(entireContent, TextView.BufferType.SPANNABLE);
         //After we get the spans of the text with iterator and we initialized the iterator
         Spannable spans = (Spannable) textView.getText();
-        BreakIterator iterator = BreakIterator.getWordInstance(Locale.ENGLISH);
+        BreakIterator iterator = BreakIterator.getWordInstance(language);
         iterator.setText(entireContent.toString());
         int start = iterator.first();
 
@@ -82,7 +135,6 @@ public class WordClicker {
         return new ClickableSpan() {
             @Override
             public void updateDrawState(@NonNull TextPaint ds) {
-                //super.updateDrawState(ds);
                 ds.setUnderlineText(false);
             }
             final String mWord;
@@ -93,32 +145,38 @@ public class WordClicker {
             public void onClick(View widget) {
                 //put clicked word to user by this interface
                 getClickedWord.getWord(mWord);
-                stringBuilder = buildSpan(string,start, end,selectedColor);
+                stringBuilder = buildSpan(string,start, end,selectedFgColor,selectedBackground, textSize);
                 selectableWord(textView,stringBuilder);
-                //textView.setText(buildSpan(string,mWord,"#FF3700B3"),TextView.BufferType.SPANNABLE);
-
             }
         };
     }
 
-    private SpannableStringBuilder buildSpan(String content, int start, int end, String spanColor) {
+    private SpannableStringBuilder buildSpan(String content, int start, int end, String fSpanColor, String bgColor, float textSize) {
 
-        //if (content.contains(word)){
-            //int start = content.indexOf(word);
-            //int end = start+ word.length();
-            final SpannableStringBuilder sb = new SpannableStringBuilder(content);
-            // Span to set text color to some RGB value
-            final ForegroundColorSpan fcs = new ForegroundColorSpan(Color.parseColor(spanColor));
-            // Span to make text bold
-            final StyleSpan bss = new StyleSpan(android.graphics.Typeface.BOLD);
-            // Set the text color for first 4 characters
+        final SpannableStringBuilder sb = new SpannableStringBuilder(content);
+
+        if (isColorAdded){
+            final ForegroundColorSpan fcs = new ForegroundColorSpan(Color.parseColor(fSpanColor));
             sb.setSpan(fcs,start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            // make them also bold
-            sb.setSpan(bss, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            return sb;
-        //}
-        //else return null;
+        }
 
+        if (isBgAdded){
+            final BackgroundColorSpan bcs = new BackgroundColorSpan(Color.parseColor(bgColor));
+            sb.setSpan(bcs,start,end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        }
+
+        if (isTypeFaceAdded){
+            final StyleSpan bss = new StyleSpan(typeFace);
+            sb.setSpan(bss, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        }
+
+        if (isSizeAdded){
+            final RelativeSizeSpan rss = new RelativeSizeSpan(textSize);
+            sb.setSpan(rss, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        }
+
+
+        return sb;
     }
 
     public static class LinkMovementMethod implements View.OnTouchListener {
@@ -139,7 +197,6 @@ public class WordClicker {
                     //We set the new position to show. We moved the lines.
                     int x = (int) event.getX();
                     int y = (int) event.getY();
-
 
                     x -= clickableText.getTotalPaddingLeft();
                     y -= clickableText.getTotalPaddingTop();
@@ -174,5 +231,6 @@ public class WordClicker {
     public interface GetClickedWord {
         void getWord(String clickedWord);
     }
+
 
 }

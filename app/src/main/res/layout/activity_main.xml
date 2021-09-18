@@ -25,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textAlignment="center"
+                android:textColor="#121211"
                 android:textSize="24sp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -37,6 +38,7 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="#05bcff"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

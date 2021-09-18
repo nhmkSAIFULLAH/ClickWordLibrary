@@ -2,10 +2,11 @@ package com.domesoft.clickwordlibrary;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.domesoft.wordclicker.LANGUAGEKt;
 import com.domesoft.wordclicker.WordClicker;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,7 +34,18 @@ public class MainActivity extends AppCompatActivity {
                 "You can be a serious student who has fun at the same time. Make up your own " +
                 "rewards program to give yourself incentives to stay on task.";
 
-        new WordClicker(tvContent,content).getClickedWord(clickedWord -> tvShow.setText(clickedWord)).setSelectedColor("#fcba03").create();
+        WordClicker wordClicker = new WordClicker(tvContent,content);
+        wordClicker.getClickedWord(clickedWord ->
+                tvShow.setText(clickedWord)
+                //Toast.makeText(this, clickedWord, Toast.LENGTH_SHORT).show()
+        );
+
+        wordClicker.setSelectedColor("#121211");
+        wordClicker.setTextStyle(Typeface.NORMAL);
+        wordClicker.setBackgroundColor("#f0f283");
+        wordClicker.setTextSize(1.05f);
+        wordClicker.setLanguage(LANGUAGEKt.ENGLISH());
+        wordClicker.create();
 
 
     }
