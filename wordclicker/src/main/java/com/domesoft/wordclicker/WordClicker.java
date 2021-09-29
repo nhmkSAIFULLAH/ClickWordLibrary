@@ -3,6 +3,7 @@ package com.domesoft.wordclicker;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.text.Html;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -13,7 +14,6 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
-import android.text.style.UnderlineSpan;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -43,13 +43,12 @@ public class WordClicker {
     public WordClicker(TextView textView, String string) {
         this.textView = textView;
         this.string = string;
-        this.stringBuilder = new SpannableStringBuilder(string);
+        this.stringBuilder = new SpannableStringBuilder(Html.fromHtml(string));
     }
 
 
     @SuppressLint("ClickableViewAccessibility")
     public void create(){
-        //textView.setText(string);
         selectableWord(textView,stringBuilder);
 
         textView.setOnTouchListener(new LinkMovementMethod());
@@ -110,20 +109,21 @@ public class WordClicker {
 
     private void selectableWord(TextView textView, SpannableStringBuilder entireString) {
         //First we trim the text and remove the spaces at start and end.
-        SpannableStringBuilder entireContent = entireString;
         //And then  set the textview movement method to prevent freezing
         //And we set the text as SPANNABLE text.
         textView.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
-        textView.setText(entireContent, TextView.BufferType.SPANNABLE);
+        textView.setText(entireString, TextView.BufferType.SPANNABLE);
+
         //After we get the spans of the text with iterator and we initialized the iterator
         Spannable spans = (Spannable) textView.getText();
         BreakIterator iterator = BreakIterator.getWordInstance(language);
-        iterator.setText(entireContent.toString());
+
+        iterator.setText(entireString.toString());
         int start = iterator.first();
 
         //Here we get all possible words by iterators
         for (int end = iterator.next(); end != BreakIterator.DONE; start = end, end = iterator.next()) {
-            String possibleWord = entireContent.toString().substring(start,end);
+            String possibleWord = entireString.toString().substring(start,end);
             if (Character.isLetterOrDigit(possibleWord.charAt(0))) {
                 ClickableSpan clickSpan = getClickableSpan(possibleWord, start, end);
                 spans.setSpan(clickSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -145,13 +145,15 @@ public class WordClicker {
             public void onClick(View widget) {
                 //put clicked word to user by this interface
                 getClickedWord.getWord(mWord);
-                stringBuilder = buildSpan(string,start, end,selectedFgColor,selectedBackground, textSize);
+                SpannableStringBuilder newString = new SpannableStringBuilder(Html.fromHtml(string));
+                stringBuilder = buildSpan(newString,start, end,selectedFgColor,selectedBackground, textSize);
+                //SpannableStringBuilder newString = new SpannableStringBuilder(stringBuilder);
                 selectableWord(textView,stringBuilder);
             }
         };
     }
 
-    private SpannableStringBuilder buildSpan(String content, int start, int end, String fSpanColor, String bgColor, float textSize) {
+    private SpannableStringBuilder buildSpan(SpannableStringBuilder content, int start, int end, String fSpanColor, String bgColor, float textSize) {
 
         final SpannableStringBuilder sb = new SpannableStringBuilder(content);
 

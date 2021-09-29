@@ -24,8 +24,7 @@
                 android:id="@+id/tvContent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textAlignment="center"
-                android:textColor="#121211"
+                android:textAlignment="textStart"
                 android:textSize="24sp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

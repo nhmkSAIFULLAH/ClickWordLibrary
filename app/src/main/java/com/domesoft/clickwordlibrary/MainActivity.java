@@ -21,18 +21,10 @@ public class MainActivity extends AppCompatActivity {
 
         tvContent = findViewById(R.id.tvContent);
         tvShow = findViewById(R.id.tvShow);
-        content = "The things we do best in life are the things life we enjoy doing. " +
-                "If you aren't having fun learning English, you're not studying the right way! " +
-                "You can be a serious student who has fun at the same time. Make up your own " +
-                "If you aren't having fun learning English, you're not studying the right way! " +
-                "You can be a serious student who has fun at the same time. Make up your own " +
-                "If you aren't having fun learning English, you're not studying the right way! " +
-                "You can be a serious student who has fun at the same time. Make up your own " +
-                "If you aren't having fun learning English, you're not studying the right way! " +
-                "You can be a serious student who has fun at the same time. Make up your own " +
-                "If you aren't having fun learning English, you're not studying the right way! " +
-                "You can be a serious student who has fun at the same time. Make up your own " +
-                "rewards program to give yourself incentives to stay on task.";
+        content = "<h3><strong>1. <span style=\"color: #ff0000;\">Read everything you can get your hands on</span></strong></h3>\n" +
+                "<p>Classic literature, paperbacks, newspapers, websites, emails, your social media feed, cereal boxes: if it&rsquo;s in English, read it. Why? Well, this content will be full of juicy new vocabulary, as well as a fair amount you already know. This helps you improve quickly, as re-exposure to learned vocabulary gives you new examples in context, therefore reinforcing those words in your mind. On the other hand, learning new words and expressions is essential to building your vocabulary arsenal, particularly in a language like English with so many words! However, don&rsquo;t just read and move on &ndash; next, you&rsquo;ve got to&hellip;</p>\n" +
+                "<h3><strong>2. <span style=\"color: #ff0000;\">Actively take note of new vocabulary</span></strong></h3>\n" +
+                "<p>This tip is a classic one for good reason: it works! When learning, we often enjoy a new word of phrase so much that forgetting it seems impossible. But trust us, not everything sticks the first time. To fight this, get into the habit of carrying around a funky notebook or using a tool like Evernote. Whenever you hear or read a new word or expression, write it down in context: that is, in a sentence and with its meaning noted. This saves you time as you won&rsquo;t return to that word and ask yourself: &ldquo;What did that word/expression mean again?&rdquo;</p>";
 
         WordClicker wordClicker = new WordClicker(tvContent,content);
         wordClicker.getClickedWord(clickedWord ->
